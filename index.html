@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital do Nicolas</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; padding: 20px; }
+        header { text-align: center; padding: 20px 0; background: #e74c3c; color: white; border-radius: 8px; margin-bottom: 20px; }
+        h2 { margin: 20px 0 10px 0; color: #c0392b; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .item h3 { margin-bottom: 10px; }
+        .preco { font-weight: bold; color: #27ae60; font-size: 1.2em; margin: 10px 0; }
+        button { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1em; }
+        button:hover { background: #219653; }
+        .carrinho { margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #lista-carrinho { list-style: none; margin-bottom: 15px; }
+        #lista-carrinho li { padding: 8px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        .btn-enviar { background: #e67e22; }
+        .btn-enviar:hover { background: #d35400; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Menu do Nicolas</h1>
+        <p>Faça seu pedido de forma rápida e receba em casa!</p>
+    </header>
+
+    <h2>Seção de Comidas</h2>
+    <div class="grid">
+        <div class="item">
+            <h3>Hamburgão</h3>
+            <p>Super hambúrguer completo e caprichado.</p>
+            <p class="preco">R$ 20,00</p>
+            <button onclick="adicionarAoCarrinho('Hamburgão', 20.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Pizza</h3>
+            <p>Pizza quentinha com queijo derretido e sabor marcante.</p>
+            <p class="preco">R$ 40,00</p>
+            <button onclick="adicionarAoCarrinho('Pizza', 40.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Batatas Fritas</h3>
+            <p>Porção de batatas crocantes e douradas.</p>
+            <p class="preco">R$ 15,00</p>
+            <button onclick="adicionarAoCarrinho('Batatas Fritas', 15.00)">Adicionar ao Pedido</button>
+        </div>
+    </div>
+
+    <h2>Seção de Bebidas</h2>
+    <div class="grid">
+        <div class="item">
+            <h3>Suco de Uva (Caixinha)</h3>
+            <p>Suco de uva prático em caixinha.</p>
+            <p class="preco">R$ 5,00</p>
+            <button onclick="adicionarAoCarrinho('Suco de Uva (Caixinha)', 5.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Suco de Uva (Lata)</h3>
+            <p>Suco de uva gelado em lata.</p>
+            <p class="preco">R$ 6,00</p>
+            <button onclick="adicionarAoCarrinho('Suco de Uva (Lata)', 6.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Coca-Cola (Lata)</h3>
+            <p>Refrigerante de cola em lata bem gelado.</p>
+            <p class="preco">R$ 6,00</p>
+            <button onclick="adicionarAoCarrinho('Coca-Cola (Lata)', 6.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Fanta (Garrafa/Lata)</h3>
+            <p>Refrigerante sabor laranja ou uva.</p>
+            <p class="preco">R$ 6,00</p>
+            <button onclick="adicionarAoCarrinho('Fanta', 6.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Guaraná</h3>
+            <p>Refrigerante sabor guaraná tradicional.</p>
+            <p class="preco">R$ 5,50</p>
+            <button onclick="adicionarAoCarrinho('Guaraná', 5.50)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Dolly</h3>
+            <p>O sabor brasileiro bem gelado.</p>
+            <p class="preco">R$ 4,50</p>
+            <button onclick="adicionarAoCarrinho('Dolly', 4.50)">Adicionar ao Pedido</button>
+        </div>
+    </div>
+
+    <div class="carrinho">
+        <h2>Seu Pedido</h2>
+        <ul id="lista-carrinho">
+            <!-- Os itens do pedido vão aparecer aqui -->
+        </ul>
+        <p><strong>Total: R$ <span id="total-pedido">0,00</span></strong></p>
+        <br>
+        <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
+    </div>
+
+    <script>
+        let carrinho = [];
+        let total = 0;
+
+        function adicionarAoCarrinho(nome, preco) {
+            carrinho.push({ nome, preco });
+            total += preco;
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            const lista = document.getElementById('lista-carrinho');
+            const totalTxt = document.getElementById('total-pedido');
+            lista.innerHTML = '';
+            
+            carrinho.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${item.nome}</span> <span>R$ ${item.preco.toFixed(2)}</span>`;
+                lista.appendChild(li);
+            });
+            
+            totalTxt.innerText = total.toFixed(2);
+        }
+
+        function enviarPedido() {
+            if(carrinho.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            
+            let texto = "Olá! Gostaria de fazer o seguinte pedido:\n\n";
+            carrinho.forEach(item => {
+                texto += `- ${item.nome}: R$ ${item.preco.toFixed(2)}\n`;
+            });
+            texto += `\n*Total: R$ ${total.toFixed(2)}*`;
+            
+            // ATENÇÃO: Troque os números abaixo pelo WhatsApp que vai receber os pedidos!
+            // Formato: 55 (Brasil) + DDD + Número (exemplo de São Paulo abaixo)
+            const numeroWhatsapp = "5511999999999"; 
+            const link = `https://whatsapp.com{numeroWhatsapp}&text=${encodeURIComponent(texto)}`;
+            
+            window.open(link, '_blank');
+        }
+    </script>
+</body>
+</html>
+>
