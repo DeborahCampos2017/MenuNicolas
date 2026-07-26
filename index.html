@@ -91,6 +91,28 @@
         </div>
     </div>
 
+    <h2>Seção de Sobremesas</h2>
+    <div class="grid">
+        <div class="item">
+            <h3>Sorvete (Bola)</h3>
+            <p>Bola de sorvete cremoso nos sabores chocolate, morango ou creme.</p>
+            <p class="preco">R$ 8,00</p>
+            <button onclick="adicionarAoCarrinho('Sorvete (Bola)', 8.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Sorvete (Casquinha)</h3>
+            <p>Casquinha crocante recheada com sorvete geladinho.</p>
+            <p class="preco">R$ 10,00</p>
+            <button onclick="adicionarAoCarrinho('Sorvete (Casquinha)', 10.00)">Adicionar ao Pedido</button>
+        </div>
+        <div class="item">
+            <h3>Sundae</h3>
+            <p>Sorvete com calda de chocolate e cobertura crocante.</p>
+            <p class="preco">R$ 14,00</p>
+            <button onclick="adicionarAoCarrinho('Sundae', 14.00)">Adicionar ao Pedido</button>
+        </div>
+    </div>
+
     <div class="carrinho">
         <h2>Seu Pedido</h2>
         <ul id="lista-carrinho">
@@ -140,11 +162,10 @@
             // ATENÇÃO: Troque os números abaixo pelo WhatsApp que vai receber os pedidos!
             // Formato: 55 (Brasil) + DDD + Número (exemplo de São Paulo abaixo)
             const numeroWhatsapp = "5511999999999"; 
-            const link = `https://whatsapp.com{numeroWhatsapp}&text=${encodeURIComponent(texto)}`;
+            const link = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(texto)}`;
             
             window.open(link, '_blank');
         }
     </script>
 </body>
 </html>
->
